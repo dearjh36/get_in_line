@@ -1,13 +1,13 @@
-package com.uno.getinline;
+package com.project.getinline;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GetInLineApplicationTests {
-
+class GetInLineApplicationTest {
     @Test
-    void contextLoads() {
+    void contextLoads(){
+
     }
 
 }
