@@ -4,10 +4,8 @@ import com.project.getinline.constant.ErrorCode;
 
 public class GeneralException extends RuntimeException{
 
-<<<<<<< HEAD
     // 에러코드와 대응
-=======
->>>>>>> c7f4bca792b5ab7dcf24433db1a02af85fbcd50e
+
     private final ErrorCode errorCode;
 
     public GeneralException(){
