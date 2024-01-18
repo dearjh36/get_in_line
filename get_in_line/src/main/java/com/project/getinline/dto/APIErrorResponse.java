@@ -8,6 +8,7 @@ import lombok.*;
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class APIErrorResponse {
+    // json body의 일정한 필드들을 보장해서 읽는 쪽에서 검사가 필요하지 않게끔 만들어줌
 
     private final Boolean success;
     private final Integer errorCode;

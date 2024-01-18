@@ -1,5 +1,10 @@
 package com.project.getinline.controller.api;
 
+import com.project.getinline.constant.ErrorCode;
+import com.project.getinline.dto.APIErrorResponse;
+import com.project.getinline.exception.GeneralException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +36,14 @@ public class APIEventController {
     @DeleteMapping("/events/{eventId}")
     public Boolean removeEvent(@PathVariable Integer eventId) {
         return true;
+    }
+
+    // 해당 클래스 내에서 generalException이 발생할 경우 해당 메소드가 잡음
+    @ExceptionHandler
+    public ResponseEntity<APIErrorResponse> general(GeneralException e){
+        ErrorCode errorCode = e.getErrorCode();
+        HttpStatus status = errorCode.isClientSideError() ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
+        return ResponseEntity.status(status);
     }
 
 }
