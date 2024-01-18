@@ -39,11 +39,6 @@ public class APIEventController {
     }
 
     // 해당 클래스 내에서 generalException이 발생할 경우 해당 메소드가 잡음
-    @ExceptionHandler
-    public ResponseEntity<APIErrorResponse> general(GeneralException e){
-        ErrorCode errorCode = e.getErrorCode();
-        HttpStatus status = errorCode.isClientSideError() ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
-        return ResponseEntity.status(status);
-    }
+
 
 }
