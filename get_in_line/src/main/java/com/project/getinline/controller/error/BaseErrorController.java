@@ -1,4 +1,4 @@
-package com.project.getinline.error;
+package com.project.getinline.controller.error;
 
 import com.project.getinline.constant.ErrorCode;
 import org.springframework.boot.web.servlet.error.ErrorController;
