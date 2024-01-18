@@ -1,7 +1,9 @@
 package com.project.getinline.exception;
 
 import com.project.getinline.constant.ErrorCode;
+import lombok.Getter;
 
+@Getter
 public class GeneralException extends RuntimeException{
 
     // 에러코드와 대응
