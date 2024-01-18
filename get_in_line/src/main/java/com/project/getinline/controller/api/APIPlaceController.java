@@ -2,7 +2,9 @@ package com.project.getinline.controller.api;
 
 import com.project.getinline.constant.PlaceType;
 import com.project.getinline.dto.APIDataResponse;
+import com.project.getinline.dto.PlaceRequest;
 import com.project.getinline.dto.PlaceResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +24,10 @@ public class APIPlaceController {
         )));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/places")
-    public Boolean createPlace() {
-        return true;
+    public APIDataResponse<Void> createPlace(@RequestBody PlaceRequest placeRequest) {
+        return APIDataResponse.empty();
     }
 
     @GetMapping("/places/{placeId}")
@@ -44,12 +47,12 @@ public class APIPlaceController {
     }
 
     @PutMapping("/places/{placeId}")
-    public Boolean modifyPlace(@PathVariable Integer placeId){
-        return true;
+    public APIDataResponse<Void> modifyPlace(@PathVariable Long placeId, @RequestBody PlaceRequest placeRequest){
+        return APIDataResponse.empty();
     }
 
     @DeleteMapping("/places/{placeId}")
-    public Boolean removePlace(@PathVariable Integer placeId){
-        return true;
+    public APIDataResponse<Void> removePlace(@PathVariable Long placeId){
+        return APIDataResponse.empty();
     }
 }
