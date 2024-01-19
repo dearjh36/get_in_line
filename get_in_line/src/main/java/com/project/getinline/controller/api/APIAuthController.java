@@ -1,20 +1,21 @@
 package com.project.getinline.controller.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.project.getinline.dto.APIDataResponse;
+import com.project.getinline.dto.AdminRequest;
+import com.project.getinline.dto.LoginRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
 @RestController
 public class APIAuthController {
-    @GetMapping("/sign-up")
-    public String signUp(){
-        return "done.";
+    @PostMapping("/sign-up")
+    public APIDataResponse<String> signUp(@RequestBody AdminRequest adminRequest){
+        return APIDataResponse.empty();
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "done.";
+    @PostMapping("/login")
+    public APIDataResponse<String> login(@RequestBody LoginRequest loginRequest){
+        return APIDataResponse.empty() ;
     }
 
 
