@@ -47,7 +47,10 @@ public class APIPlaceController {
     }
 
     @PutMapping("/places/{placeId}")
-    public APIDataResponse<Void> modifyPlace(@PathVariable Long placeId, @RequestBody PlaceRequest placeRequest){
+    public APIDataResponse<Void> modifyPlace(
+            @PathVariable Long placeId,
+            @RequestBody PlaceRequest placeRequest
+    ) {
         return APIDataResponse.empty();
     }
 
