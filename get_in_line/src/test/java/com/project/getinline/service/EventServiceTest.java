@@ -123,12 +123,14 @@ class EventServiceTest {
     void givenEvent_whenCreating_thenCreatesEventAndReturnsTrue(){
         // given
         EventDTO dto = createEventDTO(1L,"오후 운동", false);
+        given(eventRepository.insertEvent(dto)).willReturn(true);
 
         // when
         boolean result = sut.createEvent(dto);
 
         // then
         assertThat(result).isTrue();
+        then(eventRepository).should().insertEvent(dto);
 
     }
 
@@ -136,13 +138,14 @@ class EventServiceTest {
     @Test
     void givenNothing_whenCreating_thenAbortCreatingAndReturnsFalse(){
         // given
-
+        given(eventRepository.insertEvent(null)).willReturn(false);
 
         // when
         boolean result = sut.createEvent(null);
 
         // then
         assertThat(result).isFalse();
+        then(eventRepository).should().insertEvent(null);
     }
 
     @DisplayName("이벤트 ID와 정보를 주면, 이벤트 정보를 변경하고 결과를 true 로 보여준다")
@@ -151,12 +154,14 @@ class EventServiceTest {
         // given
         long eventId = 1L;
         EventDTO dto = createEventDTO(1L, "오후 운동", false);
+        given(eventRepository.updateEvent(eventId, dto)).willReturn(true);
 
         // when
         boolean result = sut.modifyEvent(eventId, dto);
 
         // then
         assertThat(result).isTrue();
+        then(eventRepository).should().updateEvent(eventId,dto);
     }
 
     @DisplayName("이벤트 ID를 주지 않으면, 이벤트 정보 변경을 중단하고 결과를 false 로 보여준다")
@@ -164,12 +169,14 @@ class EventServiceTest {
     void givenNoEventId_whenModifying_thenAbortModifyingAndReturnsFalse(){
         // given
         EventDTO dto = createEventDTO(1L, "오후 운동", false);
+        given(eventRepository.updateEvent(null, dto)).willReturn(false);
 
         // when
         boolean result = sut.modifyEvent(null, dto);
 
         // then
         assertThat(result).isFalse();
+        then(eventRepository).should().updateEvent(null, dto);
     }
 
     @DisplayName("이벤트 ID만 주고 변경할 정보를 주지 않으면, 이벤트 정보 변경 중단하고 결과를 false 로 보여준다.")
@@ -177,12 +184,14 @@ class EventServiceTest {
     void givenEventIdOnly_whenModifying_thenAbortModifyingAndReturnsFalse() {
         // Given
         long eventId = 1L;
+        given(eventRepository.updateEvent(eventId, null)).willReturn(false);
 
         // When
         boolean result = sut.modifyEvent(eventId, null);
 
         // Then
         assertThat(result).isFalse();
+        then(eventRepository).should().updateEvent(eventId, null);
     }
 
     @DisplayName("이벤트 ID를 주면, 이벤트 정보를 삭제하고 결과를 true 로 보여준다")
@@ -190,25 +199,28 @@ class EventServiceTest {
     void givenEventId_whenDeleting_thenDeletesEventAndReturnTrue(){
         // given
         long eventId = 1L;
+        given(eventRepository.deleteEvent(eventId)).willReturn(true);
 
         // when
         boolean result = sut.deleteEvent(eventId);
 
         // then
         assertThat(result).isTrue();
+        then(eventRepository).should().deleteEvent(eventId);
     }
 
     @DisplayName("이벤트 ID를 주지 않으면, 삭제 중단하고 결과를 false 로 보여준다.")
     @Test
     void givenNothing_whenDeleting_thenAbortsDeletingAndReturnsFalse() {
         // given
-
+        given(eventRepository.deleteEvent(null)).willReturn(false);
 
         // when
         boolean result = sut.deleteEvent(null);
 
         // then
         assertThat(result).isFalse();
+        then(eventRepository).should().deleteEvent(null);
     }
 
     private EventDTO createEventDTO(long placeId, String eventName, boolean isMorning){
