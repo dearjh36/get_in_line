@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/events")
 @Controller
 public class EventController {
-    @GetMapping("/")
+    @GetMapping
     public String events(){ return "event/index";}
 
     @GetMapping("/{eventId}")
