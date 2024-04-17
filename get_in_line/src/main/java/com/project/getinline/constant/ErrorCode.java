@@ -29,7 +29,7 @@ public enum ErrorCode {
     public String getMessage(String message){
         return Optional.ofNullable(message)
                 .filter(Predicate.not(String::isBlank))
-                .orElse(getMessage());
+                .orElse(this.getMessage());
     }
 
     public boolean isClientSideError(){ return this.getErrorCategory() == ErrorCategory.CLIENT_SIDE;}
