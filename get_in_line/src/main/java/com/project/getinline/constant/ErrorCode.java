@@ -24,12 +24,12 @@ public enum ErrorCode {
     private final ErrorCategory errorCategory;
     private final String message;
 
-    public String getMessage(Exception e) { return getMessage(e.getMessage());}
+    public String getMessage(Exception e) { return this.getMessage() + " - " + e.getMessage();}
 
     public String getMessage(String message){
         return Optional.ofNullable(message)
                 .filter(Predicate.not(String::isBlank))
-                .orElse(getMessage());
+                .orElse(this.getMessage());
     }
 
     public boolean isClientSideError(){ return this.getErrorCategory() == ErrorCategory.CLIENT_SIDE;}
@@ -37,7 +37,7 @@ public enum ErrorCode {
 
     @Override
     public String toString() {
-        return String.format("%s (%d)", name(), this.getCode());
+        return String.format("%s (%d)", this.name(), this.getCode());
     }
 
     public enum ErrorCategory{

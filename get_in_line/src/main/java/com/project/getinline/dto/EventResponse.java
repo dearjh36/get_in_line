@@ -36,6 +36,7 @@ public record EventResponse(
         );
     }
 
+    // EventDTO -> EventResponse
     public static EventResponse from(EventDTO eventDTO){
 
         if (eventDTO == null){

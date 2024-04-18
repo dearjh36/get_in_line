@@ -17,7 +17,7 @@ import java.util.Map;
 public class BaseErrorController implements ErrorController {
 
     @RequestMapping(value = "/error", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView errorHTML(HttpServletResponse response) {
+    public ModelAndView errorHtml(HttpServletResponse response) {
         HttpStatus status = HttpStatus.valueOf(response.getStatus());
         ErrorCode errorCode = status.is4xxClientError() ? ErrorCode.BAD_REQUEST : ErrorCode.INTERNAL_ERROR;
 

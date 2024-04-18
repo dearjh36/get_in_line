@@ -12,6 +12,7 @@ import java.util.List;
 @RequestMapping("/api")
 @RestController
 public class APIPlaceController {
+
     @GetMapping("/places")
     public APIDataResponse<List<PlaceResponse>> getPlaces() {
         return APIDataResponse.of(List.of(PlaceResponse.of(
