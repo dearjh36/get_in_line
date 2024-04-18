@@ -25,12 +25,14 @@ public class AdminController {
     // @RequestParam PlaceType placeType
     @GetMapping("/places")
     public ModelAndView adminPlaces(PlaceType placeType, String placeName, String address){
+
         Map<String, Object> map = new HashMap<>();
         map.put("placeType", placeType);
         map.put("placeName", placeName);
         map.put("address", address);
 
         return new ModelAndView("admin/places", map);
+
     }
 
     @GetMapping("/places/{placeId}")
@@ -58,6 +60,7 @@ public class AdminController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
     ) {
+
         Map<String, Object> map = new HashMap<>();
         map.put("placeName", "place-" + placeId);
         map.put("eventName", eventName);
@@ -66,6 +69,7 @@ public class AdminController {
         map.put("eventEndDatetime", eventEndDatetime);
 
         return new ModelAndView("admin/events", map);
+
     }
 
     @GetMapping("/events/{eventId}")
