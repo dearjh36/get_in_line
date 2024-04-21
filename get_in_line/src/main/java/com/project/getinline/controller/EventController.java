@@ -23,7 +23,6 @@ public class EventController {
 
         // TODO: 임시 데이터. 추후 삭제 예정
         map.put("events", List.of(EventResponse.of(
-
                         1L,
                         "오후 운동",
                         EventStatus.OPENED,
@@ -33,7 +32,6 @@ public class EventController {
                         24,
                         "마스크 꼭 착용하세요"
                 ), EventResponse.of(
-
                         1L,
                         "오후 운동",
                         EventStatus.OPENED,
@@ -54,7 +52,6 @@ public class EventController {
 
         // TODO: 임시 데이터. 추후 삭제 예정
         map.put("event", EventResponse.of(
-
                 1L,
                 "오후 운동",
                 EventStatus.OPENED,
