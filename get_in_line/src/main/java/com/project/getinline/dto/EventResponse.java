@@ -5,6 +5,7 @@ import com.project.getinline.constant.EventStatus;
 import java.time.LocalDateTime;
 
 public record EventResponse(
+
         Long placeId,
         String eventName,
         EventStatus eventStatus,
@@ -15,6 +16,7 @@ public record EventResponse(
         String memo
 ) {
     public static EventResponse of(
+
             Long placeId,
             String eventName,
             EventStatus eventStatus,
@@ -25,6 +27,7 @@ public record EventResponse(
             String memo
     ) {
         return new EventResponse(
+
                 placeId,
                 eventName,
                 eventStatus,
@@ -33,6 +36,26 @@ public record EventResponse(
                 currentNumberOfPeople,
                 capacity,
                 memo
+        );
+    }
+
+    // EventDTO -> EventResponse
+    public static EventResponse from(EventDTO eventDTO){
+
+        if (eventDTO == null){
+            return null;
+        }
+
+        return EventResponse.of(
+
+                eventDTO.placeId(),
+                eventDTO.eventName(),
+                eventDTO.eventStatus(),
+                eventDTO.eventStartDatetime(),
+                eventDTO.eventEndDatetime(),
+                eventDTO.currentNumberOfPeople(),
+                eventDTO.capacity(),
+                eventDTO.memo()
         );
     }
 }
