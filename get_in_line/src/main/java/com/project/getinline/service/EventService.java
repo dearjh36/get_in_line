@@ -1,7 +1,9 @@
 package com.project.getinline.service;
 
+import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
 import com.project.getinline.dto.EventDTO;
+import com.project.getinline.exception.GeneralException;
 import com.project.getinline.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +40,12 @@ public class EventService {
         return eventRepository.updateEvent(id, eventDTO);
     }
 
-    public boolean deleteEvent(Long eventId){
-        return eventRepository.deleteEvent(eventId);
+    public boolean removeEvent(Long eventId){
+        try{
+            return eventRepository.deleteEvent(eventId);
+        }catch (Exception e){
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
 }
