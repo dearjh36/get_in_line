@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
+@DisplayName("View 컨트롤러 - 이벤트")
 @WebMvcTest(EventController.class)
 class EventControllerTest {
 
@@ -31,7 +31,10 @@ class EventControllerTest {
         mvc.perform(get("/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("event/index"));
+                .andExpect(view().name("event/index"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().attributeExists("events"))
+        ;
     }
 
     @DisplayName("[view][GET] 이벤트 세부 정보 페이지")
@@ -44,7 +47,10 @@ class EventControllerTest {
         mvc.perform(get("/events/" + eventId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("event/detail"));
+                .andExpect(view().name("event/detail"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().attributeExists("event"))
+        ;
     }
 
 }
