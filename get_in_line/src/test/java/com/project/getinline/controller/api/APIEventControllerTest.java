@@ -27,6 +27,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@DisplayName("API 컨트롤러 - 이벤트")
 @WebMvcTest(APIEventController.class)
 class APIEventControllerTest {
 
@@ -103,6 +105,7 @@ class APIEventControllerTest {
         // Given
         EventResponse eventResponse = EventResponse.of(
                 1L,
+                1L,
                 "오후 운동",
                 EventStatus.OPENED,
                 LocalDateTime.of(2021, 1, 1, 13, 0, 0),
@@ -133,6 +136,7 @@ class APIEventControllerTest {
     void givenWrongEvent_whenCreatingAnEvent_thenReturnsFailedStandardResponse() throws Exception {
         // Given
         EventResponse eventResponse = EventResponse.of(
+                1L,
                 0L,
                 "  ",
                 null,
@@ -227,6 +231,7 @@ class APIEventControllerTest {
         // Given
         long eventId = 1L;
         EventResponse eventResponse = EventResponse.of(
+                eventId,
                 1L,
                 "오후 운동",
                 EventStatus.OPENED,
@@ -259,6 +264,7 @@ class APIEventControllerTest {
         // Given
         long eventId = 0L;
         EventResponse eventResponse = EventResponse.of(
+                eventId,
                 0L,
                 "  ",
                 null,
@@ -288,7 +294,7 @@ class APIEventControllerTest {
     void givenEventId_whenDeletingAnEvent_thenReturnsSuccessfulStandardResponse() throws Exception {
         // Given
         long eventId = 1L;
-        given(eventService.deleteEvent(eq(eventId))).willReturn(true);
+        given(eventService.removeEvent(eq(eventId))).willReturn(true);
 
         // When & Then
         mvc.perform(delete("/api/events/" + eventId))
@@ -298,7 +304,7 @@ class APIEventControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.errorCode").value(ErrorCode.OK.getCode()))
                 .andExpect(jsonPath("$.message").value(ErrorCode.OK.getMessage()));
-        then(eventService).should().deleteEvent(eq(eventId));
+        then(eventService).should().removeEvent(eq(eventId));
     }
 
     @DisplayName("[API][DELETE] 이벤트 삭제 - 잘못된 입력")
@@ -320,6 +326,7 @@ class APIEventControllerTest {
 
     private EventDTO createEventDTO() {
         return EventDTO.of(
+                1L,
                 1L,
                 "오후 운동",
                 EventStatus.OPENED,

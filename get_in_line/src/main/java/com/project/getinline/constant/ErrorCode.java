@@ -26,7 +26,7 @@ public enum ErrorCode {
     private final ErrorCategory errorCategory;
     private final String message;
 
-    public String getMessage(Exception e) { return this.getMessage() + " - " + e.getMessage();}
+    public String getMessage(Throwable e) { return this.getMessage() + " - " + e.getMessage();}
 
     public String getMessage(String message){
         return Optional.ofNullable(message)

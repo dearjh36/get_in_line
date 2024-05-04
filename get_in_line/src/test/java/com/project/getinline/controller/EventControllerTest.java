@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
+@DisplayName("View 컨트롤러 - 이벤트")
 @WebMvcTest(EventController.class)
 class EventControllerTest {
 

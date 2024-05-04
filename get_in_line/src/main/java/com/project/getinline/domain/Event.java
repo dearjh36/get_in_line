@@ -10,13 +10,10 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
+
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     private Long placeId;
     private String eventName;
