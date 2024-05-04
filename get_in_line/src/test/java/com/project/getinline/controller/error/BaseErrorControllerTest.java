@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+@DisplayName("View 컨트롤러 - 에러")
 @WebMvcTest(BaseErrorController.class)
 class BaseErrorControllerTest {
     private final MockMvc mvc;
