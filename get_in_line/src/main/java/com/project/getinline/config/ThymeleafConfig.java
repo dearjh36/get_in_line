@@ -10,6 +10,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 @Configuration
 public class ThymeleafConfig {
+
     @Bean
     public SpringResourceTemplateResolver thymeleafTemplateResolver(
             SpringResourceTemplateResolver defaultTemplateResolver,
@@ -20,13 +21,14 @@ public class ThymeleafConfig {
         return defaultTemplateResolver;
     }
 
+
     @Getter
     @RequiredArgsConstructor
     @ConstructorBinding
     @ConfigurationProperties("spring.thymeleaf3")
     public static class Thymeleaf3Properties {
         /**
-         * Thymeleaf 3 Decoupled Logic 기능의 활성화
+         * Thymeleaf 3 Decoupled Logic 활성화
          */
         private final boolean decoupledLogic;
     }
