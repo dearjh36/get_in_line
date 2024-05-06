@@ -26,17 +26,12 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> general(GeneralException e, WebRequest request) {
         ErrorCode errorCode = e.getErrorCode();
-        HttpStatus status = errorCode.isClientSideError() ? HttpStatus.BAD_REQUEST : HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = errorCode.isClientSideError() ?
+                HttpStatus.BAD_REQUEST :
+                HttpStatus.INTERNAL_SERVER_ERROR;
 
-        return super.handleExceptionInternal(
-                e,
-                errorCode,
-                HttpHeaders.EMPTY,
-                status,
-                request
-        );
+        return handleExceptionInternal(e, errorCode, HttpHeaders.EMPTY, status, request);
     }
-
 
     @ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
@@ -49,14 +44,9 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
                 ErrorCode.SPRING_BAD_REQUEST :
                 ErrorCode.SPRING_INTERNAL_ERROR;
 
-        return handleExceptionInternal(
-                ex,
-                errorCode,
-                headers,
-                status,
-                request
-        );
+        return handleExceptionInternal(ex, errorCode, headers, status, request);
     }
+
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ErrorCode errorCode, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return super.handleExceptionInternal(
@@ -69,3 +59,4 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 }
+

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RequestMapping("/api")
-//@RestController
+@RequestMapping("/api")
+@RestController
 public class APIPlaceController {
 
     @GetMapping("/places")
@@ -56,7 +56,8 @@ public class APIPlaceController {
     }
 
     @DeleteMapping("/places/{placeId}")
-    public APIDataResponse<Void> removePlace(@PathVariable Long placeId){
+    public APIDataResponse<Void> removePlace(@PathVariable Long placeId) {
         return APIDataResponse.empty();
     }
+
 }
