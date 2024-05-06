@@ -17,31 +17,31 @@ import java.util.Map;
 @Controller
 public class EventController {
     @GetMapping
-    public ModelAndView events(){
+    public ModelAndView events() {
 
         Map<String, Object> map = new HashMap<>();
 
         // TODO: 임시 데이터. 추후 삭제 예정
         map.put("events", List.of(EventResponse.of(
-                        1L,
-                1L,
-                        "오후 운동",
-                        EventStatus.OPENED,
-                        LocalDateTime.of(2021, 1, 1, 13, 0, 0),
-                        LocalDateTime.of(2021, 1, 1, 16, 0, 0),
-                        0,
-                        24,
-                        "마스크 꼭 착용하세요"
+                    1L,
+                    1L,
+                    "오후 운동",
+                    EventStatus.OPENED,
+                    LocalDateTime.of(2021, 1, 1, 13, 0, 0),
+                    LocalDateTime.of(2021, 1, 1, 16, 0, 0),
+                    0,
+                    24,
+                    "마스크 꼭 착용하세요"
                 ), EventResponse.of(
-                        2L,
-                1L,
-                        "오후 운동",
-                        EventStatus.OPENED,
-                        LocalDateTime.of(2021, 1, 1, 13, 0, 0),
-                        LocalDateTime.of(2021, 1, 1, 16, 0, 0),
-                        0,
-                        24,
-                        "마스크 꼭 착용하세요"
+                    2L,
+                    1L,
+                    "오후 운동",
+                    EventStatus.OPENED,
+                    LocalDateTime.of(2021, 1, 1, 13, 0, 0),
+                    LocalDateTime.of(2021, 1, 1, 16, 0, 0),
+                    0,
+                    24,
+                    "마스크 꼭 착용하세요"
                 )
         ));
 

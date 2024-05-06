@@ -18,10 +18,10 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@Validated
+@Validated
 @RequiredArgsConstructor
-//@RequestMapping("/api")
-//@RestController
+@RequestMapping("/api")
+@RestController
 public class APIEventController {
 
     private final EventService eventService;
@@ -56,6 +56,7 @@ public class APIEventController {
     @GetMapping("/events/{eventId}")
     public APIDataResponse<EventResponse> getEvent(@Positive @PathVariable Long eventId) {
         EventResponse eventResponse = EventResponse.from(eventService.getEvent(eventId).orElse(null));
+
         return APIDataResponse.of(eventResponse);
     }
 
@@ -71,8 +72,8 @@ public class APIEventController {
     @DeleteMapping("/events/{eventId}")
     public APIDataResponse<String> removeEvent(@Positive @PathVariable Long eventId) {
         boolean result = eventService.removeEvent(eventId);
+
         return APIDataResponse.of(Boolean.toString(result));
     }
-
 
 }
