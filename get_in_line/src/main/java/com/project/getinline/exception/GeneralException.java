@@ -9,6 +9,7 @@ public class GeneralException extends RuntimeException{
     // 에러코드와 대응
     private final ErrorCode errorCode;
 
+
     public GeneralException() {
         super(ErrorCode.INTERNAL_ERROR.getMessage());
         this.errorCode = ErrorCode.INTERNAL_ERROR;
@@ -40,3 +41,4 @@ public class GeneralException extends RuntimeException{
     }
 
 }
+
