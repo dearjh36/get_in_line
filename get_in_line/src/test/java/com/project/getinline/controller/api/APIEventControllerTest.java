@@ -52,7 +52,8 @@ class APIEventControllerTest {
         given(eventService.getEvents(any(), any(), any(), any(), any())).willReturn(List.of(createEventDTO()));
 
         // When & Then
-        mvc.perform( get("/api/events")
+        mvc.perform(
+                        get("/api/events")
                                 .queryParam("placeId", "1")
                                 .queryParam("eventName", "운동")
                                 .queryParam("eventStatus", EventStatus.OPENED.name())
