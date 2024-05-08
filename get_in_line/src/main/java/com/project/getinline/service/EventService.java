@@ -24,7 +24,7 @@ public class EventService {
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
             LocalDateTime eventEndDatetime
-    ){
+    ) {
         try {
             return eventRepository.findEvents(
                     placeId,
@@ -39,7 +39,7 @@ public class EventService {
         }
     }
 
-    public Optional<EventDTO> getEvent(Long eventId){
+    public Optional<EventDTO> getEvent(Long eventId) {
         try {
             return eventRepository.findEvent(eventId);
         }
@@ -48,7 +48,7 @@ public class EventService {
         }
     }
 
-    public boolean createEvent(EventDTO eventDTO){
+    public boolean createEvent(EventDTO eventDTO) {
         try {
             return eventRepository.insertEvent(eventDTO);
         }
@@ -57,7 +57,7 @@ public class EventService {
         }
     }
 
-    public boolean modifyEvent(Long eventId, EventDTO dto){
+    public boolean modifyEvent(Long eventId, EventDTO dto) {
         try {
             return eventRepository.updateEvent(eventId, dto);
         }
@@ -66,12 +66,12 @@ public class EventService {
         }
     }
 
-    public boolean removeEvent(Long eventId){
-        try{
+    public boolean removeEvent(Long eventId) {
+        try {
             return eventRepository.deleteEvent(eventId);
-        }catch (Exception e){
+        }
+        catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
-
 }
