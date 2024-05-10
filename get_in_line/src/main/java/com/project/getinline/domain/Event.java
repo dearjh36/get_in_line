@@ -63,8 +63,11 @@ public class Event {
     private String memo;
 
 
+    // @EntityListeners(AuditingEntityListener.class) 가 자동으로 세팅하게 유도
+    // insertable 찾아보기
     @Column(nullable = false, insertable = false, updatable = false,
             columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    // 위와 아래의 어노테이션은 별개로 기능
     @CreatedDate
     private LocalDateTime createdAt;
 
