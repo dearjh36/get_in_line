@@ -18,6 +18,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
+
     public List<EventDTO> getEvents(
             Long placeId,
             String eventName,

@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 // JpaAuditing 하고 싶어서 만든 클래스
 public class JpaConfig {
-
+/*
     @Bean
     public DataSource dataSource() {
  /*
@@ -32,7 +32,7 @@ public class JpaConfig {
                 .url()
                 .username()
                 .password()
-                .build();*/
+                .build();
 
         // 2. 직접 해줄때 더 간단하게
         // 메소드명 위에 @ConfigurationProperties("spring.dataSource") 추가
@@ -61,4 +61,5 @@ public class JpaConfig {
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
     }
+    */
 }
