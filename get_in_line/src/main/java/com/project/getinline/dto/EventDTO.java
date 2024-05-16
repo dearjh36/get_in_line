@@ -1,13 +1,15 @@
 package com.project.getinline.dto;
 
 import com.project.getinline.constant.EventStatus;
+import com.project.getinline.domain.Event;
+import com.project.getinline.domain.Place;
 
 import java.time.LocalDateTime;
 
-public record EventDTO(
+public record EventDto(
 
         Long id,
-        Long placeId,
+        PlaceDto placeDto,
         String eventName,
         EventStatus eventStatus,
         LocalDateTime eventStartDatetime,
@@ -18,9 +20,9 @@ public record EventDTO(
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public static EventDTO of(
+    public static EventDto of(
             Long id,
-            Long placeId,
+            PlaceDto placeDto,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
@@ -31,9 +33,9 @@ public record EventDTO(
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new EventDTO(
+        return new EventDto(
                 id,
-                placeId,
+                placeDto,
                 eventName,
                 eventStatus,
                 eventStartDatetime,
@@ -45,4 +47,47 @@ public record EventDTO(
                 modifiedAt
         );
     }
+
+    public static EventDto of(Event event) {
+        return new EventDto(
+                event.getId(),
+                PlaceDto.of(event.getPlace()),
+                event.getEventName(),
+                event.getEventStatus(),
+                event.getEventStartDatetime(),
+                event.getEventEndDatetime(),
+                event.getCurrentNumberOfPeople(),
+                event.getCapacity(),
+                event.getMemo(),
+                event.getCreatedAt(),
+                event.getModifiedAt()
+        );
+    }
+
+    public Event toEntity(Place place){
+        return Event.of(
+                place,
+                eventName,
+                eventStatus,
+                eventStartDatetime,
+                eventEndDatetime,
+                currentNumberOfPeople,
+                capacity,
+                memo
+        );
+    }
+
+    public Event updateEntity(Event event){
+
+        if (eventName != null) { event.setEventName(eventName); }
+        if (eventStatus != null) { event.setEventStatus(eventStatus); }
+        if (eventStartDatetime != null) { event.setEventStartDatetime(eventStartDatetime); }
+        if (eventEndDatetime != null) { event.setEventEndDatetime(eventEndDatetime); }
+        if (currentNumberOfPeople != null) { event.setCurrentNumberOfPeople(currentNumberOfPeople); }
+        if (capacity != null) { event.setCapacity(capacity); }
+        if (memo != null) { event.setMemo(memo); }
+
+        return  event;
+    }
+
 }

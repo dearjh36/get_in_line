@@ -1,6 +1,6 @@
 package com.project.getinline.integration;
 
-import com.project.getinline.dto.EventDTO;
+import com.project.getinline.dto.EventDto;
 import com.project.getinline.service.EventService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 
 @SpringBootTest
 public class EventServiceSociableTest {
@@ -30,7 +28,7 @@ public class EventServiceSociableTest {
 //                ));
 
         // When
-        List<EventDTO> list = sut.getEvents(null, null, null, null, null);
+        List<EventDto> list = sut.getEvents(null, null, null, null, null);
 
         // Then
         assertThat(list).hasSize(0);
