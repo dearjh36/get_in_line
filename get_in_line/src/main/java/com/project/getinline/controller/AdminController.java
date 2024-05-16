@@ -75,9 +75,19 @@ public class AdminController {
     @GetMapping("/events/{eventId}")
     public ModelAndView adminEventDetail(@PathVariable Long eventId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("event", EventDTO.of(
+        map.put("event", EventDto.of(
                 eventId,
-                1L,
+                PlaceDto.of(
+                        1L,
+                        PlaceType.SPORTS,
+                        "배드민턴장",
+                        "서울시 그리구 그래동",
+                        "010-2222-3333",
+                        33,
+                        null,
+                        LocalDateTime.now(),
+                        LocalDateTime.now()
+                ),
                 "오후 운동",
                 EventStatus.OPENED,
                 LocalDateTime.of(2021, 1, 1, 13, 0, 0),
