@@ -56,7 +56,8 @@ public class APIPlaceController {
     }
 
     @DeleteMapping("/places/{placeId}")
-    public APIDataResponse<Void> removePlace(@PathVariable Long placeId){
+    public APIDataResponse<Void> removePlace(@PathVariable Long placeId) {
         return APIDataResponse.empty();
     }
+
 }

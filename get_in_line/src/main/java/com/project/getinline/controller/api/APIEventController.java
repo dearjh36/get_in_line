@@ -18,7 +18,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -49,7 +48,6 @@ public class APIEventController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/events")
     public APIDataResponse<String> createEvent(@Valid @RequestBody EventRequest eventRequest) {
-        log.debug("보고 싶은 정보 : {}",eventRequest);
         boolean result = eventService.createEvent(eventRequest.toDTO());
 
         return APIDataResponse.of(Boolean.toString(result));
@@ -58,6 +56,7 @@ public class APIEventController {
     @GetMapping("/events/{eventId}")
     public APIDataResponse<EventResponse> getEvent(@Positive @PathVariable Long eventId) {
         EventResponse eventResponse = EventResponse.from(eventService.getEvent(eventId).orElse(null));
+
         return APIDataResponse.of(eventResponse);
     }
 
@@ -72,9 +71,9 @@ public class APIEventController {
 
     @DeleteMapping("/events/{eventId}")
     public APIDataResponse<String> removeEvent(@Positive @PathVariable Long eventId) {
-        boolean result = eventService.deleteEvent(eventId);
+        boolean result = eventService.removeEvent(eventId);
+
         return APIDataResponse.of(Boolean.toString(result));
     }
-
 
 }

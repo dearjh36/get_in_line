@@ -1,7 +1,9 @@
 package com.project.getinline.service;
 
+import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
 import com.project.getinline.dto.EventDTO;
+import com.project.getinline.exception.GeneralException;
 import com.project.getinline.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,24 +24,54 @@ public class EventService {
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
             LocalDateTime eventEndDatetime
-    ){
-        return eventRepository.findEvents(placeId,eventName,eventStatus,eventStartDatetime,eventEndDatetime);
+    ) {
+        try {
+            return eventRepository.findEvents(
+                    placeId,
+                    eventName,
+                    eventStatus,
+                    eventStartDatetime,
+                    eventEndDatetime
+            );
+        }
+        catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
-    public Optional<EventDTO> getEvent(Long eventId){
-        return eventRepository.findEvent(eventId);
+    public Optional<EventDTO> getEvent(Long eventId) {
+        try {
+            return eventRepository.findEvent(eventId);
+        }
+        catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
-    public boolean createEvent(EventDTO eventDTO){
-        return eventRepository.insertEvent(eventDTO);
+    public boolean createEvent(EventDTO eventDTO) {
+        try {
+            return eventRepository.insertEvent(eventDTO);
+        }
+        catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
-    public boolean modifyEvent(Long id, EventDTO eventDTO){
-        return eventRepository.updateEvent(id, eventDTO);
+    public boolean modifyEvent(Long eventId, EventDTO dto) {
+        try {
+            return eventRepository.updateEvent(eventId, dto);
+        }
+        catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
-    public boolean deleteEvent(Long eventId){
-        return eventRepository.deleteEvent(eventId);
+    public boolean removeEvent(Long eventId) {
+        try {
+            return eventRepository.deleteEvent(eventId);
+        }
+        catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
-
 }
