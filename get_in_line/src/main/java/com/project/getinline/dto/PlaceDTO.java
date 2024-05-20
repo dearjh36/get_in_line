@@ -28,7 +28,7 @@ public record PlaceDto(
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new PlaceDto(id,placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
+        return new PlaceDto(id, placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
     }
 
     public static PlaceDto of(Place place) {
@@ -45,7 +45,30 @@ public record PlaceDto(
         );
     }
 
-    public Place toEntity(){
-        return Place.of(placeType, placeName, address, phoneNumber, capacity,memo);
+    public Place toEntity() {
+        return Place.of(placeType, placeName, address, phoneNumber, capacity, memo);
+    }
+
+    public Place updateEntity(Place place) {
+        if (placeType != null) {
+            place.setPlaceType(placeType);
+        }
+        if (placeName != null) {
+            place.setPlaceName(placeName);
+        }
+        if (address != null) {
+            place.setAddress(address);
+        }
+        if (phoneNumber != null) {
+            place.setPhoneNumber(phoneNumber);
+        }
+        if (capacity != null) {
+            place.setCapacity(capacity);
+        }
+        if (memo != null) {
+            place.setMemo(memo);
+        }
+
+        return place;
     }
 }
