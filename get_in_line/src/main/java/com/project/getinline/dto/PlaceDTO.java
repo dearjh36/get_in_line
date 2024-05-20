@@ -2,10 +2,12 @@ package com.project.getinline.dto;
 
 
 import com.project.getinline.constant.PlaceType;
+import com.project.getinline.domain.Place;
 
 import java.time.LocalDateTime;
 
-public record PlaceDTO(
+public record PlaceDto(
+        Long id,
         PlaceType placeType,
         String placeName,
         String address,
@@ -15,7 +17,8 @@ public record PlaceDTO(
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public static PlaceDTO of(
+    public static PlaceDto of(
+            Long id,
             PlaceType placeType,
             String placeName,
             String address,
@@ -25,6 +28,47 @@ public record PlaceDTO(
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new PlaceDTO(placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
+        return new PlaceDto(id, placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
+    }
+
+    public static PlaceDto of(Place place) {
+        return new PlaceDto(
+                place.getId(),
+                place.getPlaceType(),
+                place.getPlaceName(),
+                place.getAddress(),
+                place.getPhoneNumber(),
+                place.getCapacity(),
+                place.getMemo(),
+                place.getCreatedAt(),
+                place.getModifiedAt()
+        );
+    }
+
+    public Place toEntity() {
+        return Place.of(placeType, placeName, address, phoneNumber, capacity, memo);
+    }
+
+    public Place updateEntity(Place place) {
+        if (placeType != null) {
+            place.setPlaceType(placeType);
+        }
+        if (placeName != null) {
+            place.setPlaceName(placeName);
+        }
+        if (address != null) {
+            place.setAddress(address);
+        }
+        if (phoneNumber != null) {
+            place.setPhoneNumber(phoneNumber);
+        }
+        if (capacity != null) {
+            place.setCapacity(capacity);
+        }
+        if (memo != null) {
+            place.setMemo(memo);
+        }
+
+        return place;
     }
 }

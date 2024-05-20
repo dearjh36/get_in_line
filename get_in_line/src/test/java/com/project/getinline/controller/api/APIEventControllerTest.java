@@ -3,7 +3,7 @@ package com.project.getinline.controller.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
-import com.project.getinline.dto.EventDTO;
+import com.project.getinline.dto.EventDto;
 import com.project.getinline.dto.EventResponse;
 import com.project.getinline.service.EventService;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -52,7 +51,8 @@ class APIEventControllerTest {
         given(eventService.getEvents(any(), any(), any(), any(), any())).willReturn(List.of(createEventDTO()));
 
         // When & Then
-        mvc.perform( get("/api/events")
+        mvc.perform(
+                        get("/api/events")
                                 .queryParam("placeId", "1")
                                 .queryParam("eventName", "운동")
                                 .queryParam("eventStatus", EventStatus.OPENED.name())
@@ -324,8 +324,8 @@ class APIEventControllerTest {
     }
 
 
-    private EventDTO createEventDTO() {
-        return EventDTO.of(
+    private EventDto createEventDTO() {
+        return EventDto.of(
                 1L,
                 1L,
                 "오후 운동",

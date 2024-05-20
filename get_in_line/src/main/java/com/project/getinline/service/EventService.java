@@ -2,7 +2,7 @@ package com.project.getinline.service;
 
 import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
-import com.project.getinline.dto.EventDTO;
+import com.project.getinline.dto.EventDto;
 import com.project.getinline.exception.GeneralException;
 import com.project.getinline.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,14 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    public List<EventDTO> getEvents(
+
+    public List<EventDto> getEvents(
             Long placeId,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
             LocalDateTime eventEndDatetime
-    ){
+    ) {
         try {
             return eventRepository.findEvents(
                     placeId,
@@ -39,7 +40,7 @@ public class EventService {
         }
     }
 
-    public Optional<EventDTO> getEvent(Long eventId){
+    public Optional<EventDto> getEvent(Long eventId) {
         try {
             return eventRepository.findEvent(eventId);
         }
@@ -48,7 +49,7 @@ public class EventService {
         }
     }
 
-    public boolean createEvent(EventDTO eventDTO){
+    public boolean createEvent(EventDto eventDTO) {
         try {
             return eventRepository.insertEvent(eventDTO);
         }
@@ -57,7 +58,7 @@ public class EventService {
         }
     }
 
-    public boolean modifyEvent(Long eventId, EventDTO dto){
+    public boolean modifyEvent(Long eventId, EventDto dto) {
         try {
             return eventRepository.updateEvent(eventId, dto);
         }
@@ -66,12 +67,12 @@ public class EventService {
         }
     }
 
-    public boolean removeEvent(Long eventId){
-        try{
+    public boolean removeEvent(Long eventId) {
+        try {
             return eventRepository.deleteEvent(eventId);
-        }catch (Exception e){
+        }
+        catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
-
 }

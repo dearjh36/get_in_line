@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ad0ffad-042a-49b0-a361-9c233dd818f0" name="Changes" comment="" />
+    <list default="true" id="8ad0ffad-042a-49b0-a361-9c233dd818f0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_in_line/src/main/java/com/project/getinline/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/get_in_line/src/main/java/com/project/getinline/service/EventService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,7 +29,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/#8",
+    "git-widget-placeholder": "feature/#14",
     "last_opened_file_path": "C:/Users/juhee/WorkSpace/fastSpring/intellij_Workspace/git/get_in_line/get_in_line",
     "vue.rearranger.settings.migration": "true"
   }
@@ -57,6 +60,7 @@
       <workItem from="1715005969075" duration="177000" />
       <workItem from="1715006152083" duration="38000" />
       <workItem from="1715006201759" duration="13000" />
+      <workItem from="1715177187505" duration="25000" />
     </task>
     <servers />
   </component>
