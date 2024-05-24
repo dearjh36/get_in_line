@@ -45,6 +45,7 @@ test {
     useJUnitPlatform()
 }
 
+
 // querydsl 적용
 def generated='src/main/generated'
 
@@ -54,11 +55,11 @@ sourceSets {
 }
 
 // querydsl QClass 파일 위치를 잡아주는 설정
-tasks.withType(JavaCompile){
+tasks.withType(JavaCompile) {
     options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
 // gradle clean 시에 QClass 디렉토리 삭제
-clean{
+clean {
     delete file(generated)
 }
