@@ -40,7 +40,11 @@ public class EventService {
         }
     }
 
+<<<<<<< HEAD
     public Optional<EventDto> getEvent(Long eventId) {
+=======
+    public Optional<EventDTO> getEvent(Long eventId) {
+>>>>>>> aa02c42 (#14 Refector)
         try {
             return eventRepository.findEvent(eventId);
         }
@@ -49,7 +53,11 @@ public class EventService {
         }
     }
 
+<<<<<<< HEAD
     public boolean createEvent(EventDto eventDTO) {
+=======
+    public boolean createEvent(EventDTO eventDTO) {
+>>>>>>> aa02c42 (#14 Refector)
         try {
             return eventRepository.insertEvent(eventDTO);
         }
@@ -58,7 +66,11 @@ public class EventService {
         }
     }
 
+<<<<<<< HEAD
     public boolean modifyEvent(Long eventId, EventDto dto) {
+=======
+    public boolean modifyEvent(Long eventId, EventDTO dto) {
+>>>>>>> aa02c42 (#14 Refector)
         try {
             return eventRepository.updateEvent(eventId, dto);
         }
