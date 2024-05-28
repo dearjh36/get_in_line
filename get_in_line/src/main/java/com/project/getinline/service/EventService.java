@@ -2,6 +2,7 @@ package com.project.getinline.service;
 
 import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
+import com.project.getinline.domain.Place;
 import com.project.getinline.dto.EventDto;
 import com.project.getinline.exception.GeneralException;
 import com.project.getinline.repository.EventRepository;

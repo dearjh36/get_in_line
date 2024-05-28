@@ -9,10 +9,10 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
+
 // todo완료 : 인스턴스 생성 편의를 위해 임시로 default 사용, repository layer 구현이 완성되면 삭제
 public interface EventRepository extends
         JpaRepository<Event, Long>,
-        EventRepositoryCustom,
         QuerydslPredicateExecutor<Event>,
         QuerydslBinderCustomizer<QEvent> {
 
