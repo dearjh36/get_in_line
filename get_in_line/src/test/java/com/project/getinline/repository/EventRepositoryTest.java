@@ -1,7 +1,9 @@
 package com.project.getinline.repository;
 
 import com.project.getinline.constant.EventStatus;
+import com.project.getinline.constant.PlaceType;
 import com.project.getinline.domain.Event;
+import com.project.getinline.domain.Place;
 import com.querydsl.core.BooleanBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,5 +69,12 @@ class EventRepositoryTest {
         ReflectionTestUtils.setField(event, "id", id);
 
         return event;
+    }
+
+    private Place createPlace(long placeId) {
+        Place place = Place.of(PlaceType.COMMON,"test place", "test address", "01012345678",1," ");
+        ReflectionTestUtils.setField(place, "id", 1L);
+
+        return place;
     }
 }
