@@ -1,7 +1,9 @@
 package com.project.getinline.controller;
 
+import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.domain.Place;
 import com.project.getinline.dto.PlaceResponse;
+import com.project.getinline.exception.GeneralException;
 import com.project.getinline.service.PlaceService;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;

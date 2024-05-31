@@ -34,7 +34,10 @@ class EventRepositoryTest {
     @Test
     void test(){
         // Given
-        testEntityManager.persist(createEvent());
+        Place place = createPlace();
+        Event event = createEvent(createPlace());
+        testEntityManager.persist(place);
+        testEntityManager.persist(event);
 
         // When
         Iterable<Event> events = sut.findAll(new BooleanBuilder());
@@ -44,20 +47,20 @@ class EventRepositoryTest {
 
     }
 
-    private Event createEvent(){
-        return createEvent(1L, 1L, "test event", EventStatus.ABORTED, LocalDateTime.now(),LocalDateTime.now());
+    private Event createEvent(Place place){
+        return createEvent(place, "test event", EventStatus.ABORTED, LocalDateTime.now(),LocalDateTime.now());
     }
 
+
     private Event createEvent(
-            long id,
-            long placeId,
+            Place place,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDateTime,
             LocalDateTime eventEndDateTime
     ) {
-        Event event = Event.of(
-                createPlace(placeId),
+        return Event.of(
+                place,
                 eventName,
                 eventStatus,
                 eventStartDateTime,
@@ -66,15 +69,15 @@ class EventRepositoryTest {
                 24,
                 "마스크 꼭 착용하세요"
         );
-        ReflectionTestUtils.setField(event, "id", id);
 
-        return event;
+        // 영속성 컨텍스트에 넣을거라 필요없
+        //ReflectionTestUtils.setField(event, "id", id);
+
     }
 
-    private Place createPlace(long placeId) {
-        Place place = Place.of(PlaceType.COMMON,"test place", "test address", "01012345678",1," ");
-        ReflectionTestUtils.setField(place, "id", 1L);
+    private Place createPlace() {
+        return Place.of(PlaceType.COMMON,"test place", "test address", "01012345678",1," ");
+        //ReflectionTestUtils.setField(place, "id", 1L);
 
-        return place;
     }
 }
