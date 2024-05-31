@@ -9,10 +9,13 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
+
 // todo완료 : 인스턴스 생성 편의를 위해 임시로 default 사용, repository layer 구현이 완성되면 삭제
-public interface EventRepository extends    JpaRepository<Event, Long>,
+public interface EventRepository extends
+        JpaRepository<Event, Long>,
         QuerydslPredicateExecutor<Event>,
         QuerydslBinderCustomizer<QEvent> {
+
     @Override
     default void customize(QuerydslBindings bindings, QEvent root) {
         bindings.excludeUnlistedProperties(true);
@@ -22,4 +25,5 @@ public interface EventRepository extends    JpaRepository<Event, Long>,
         bindings.bind(root.eventStartDatetime).first(ComparableExpression::goe);
         bindings.bind(root.eventEndDatetime).first(ComparableExpression::loe);
     }
+
 }
