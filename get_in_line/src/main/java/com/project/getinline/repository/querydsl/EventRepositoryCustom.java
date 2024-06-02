@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 
 public interface EventRepositoryCustom {
-    Page<EventViewResponse> findEventViewPateBySearchParams(
+    Page<EventViewResponse> findEventViewPageBySearchParams(
             String placeName,
             String eventName,
             EventStatus eventStatus,

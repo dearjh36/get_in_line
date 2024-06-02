@@ -24,7 +24,7 @@ public class EventRepositoryCustomImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public Page<EventViewResponse> findEventViewPateBySearchParams(
+    public Page<EventViewResponse> findEventViewPageBySearchParams(
             String placeName,
             String eventName,
             EventStatus eventStatus,
