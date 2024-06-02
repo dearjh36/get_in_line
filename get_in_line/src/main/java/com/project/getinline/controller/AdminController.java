@@ -19,26 +19,25 @@ import java.util.Map;
 @Controller
 public class AdminController {
 
-    // @RequestParam 은 생략 가능, 생략하고 안하고 동작차이 있음
-    // 생략할시 @RequestParam의 required=false 로 설정
-    // 해당 메소드에서는 검색어가 들어가도 되고 안들어가도 되서 생략
-    // @RequestParam PlaceType placeType
     @GetMapping("/places")
-    public ModelAndView adminPlaces(PlaceType placeType, String placeName, String address){
-
+    public ModelAndView adminPlaces(
+            PlaceType placeType,
+            String placeName,
+            String address
+    ) {
         Map<String, Object> map = new HashMap<>();
         map.put("placeType", placeType);
         map.put("placeName", placeName);
         map.put("address", address);
 
         return new ModelAndView("admin/places", map);
-
     }
 
     @GetMapping("/places/{placeId}")
     public ModelAndView adminPlaceDetail(@PathVariable Long placeId) {
         Map<String, Object> map = new HashMap<>();
         map.put("place", PlaceDto.of(
+                placeId,
                 PlaceType.COMMON,
                 "랄라배드민턴장",
                 "서울시 강남구 강남대로 1234",
@@ -60,7 +59,6 @@ public class AdminController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
     ) {
-
         Map<String, Object> map = new HashMap<>();
         map.put("placeName", "place-" + placeId);
         map.put("eventName", eventName);
@@ -69,7 +67,6 @@ public class AdminController {
         map.put("eventEndDatetime", eventEndDatetime);
 
         return new ModelAndView("admin/events", map);
-
     }
 
     @GetMapping("/events/{eventId}")
@@ -101,4 +98,5 @@ public class AdminController {
 
         return new ModelAndView("admin/event-detail", map);
     }
+
 }
