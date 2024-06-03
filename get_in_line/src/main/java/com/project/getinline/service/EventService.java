@@ -36,6 +36,23 @@ public class EventService {
         }
     }
 
+    public Page<EventViewResponse> getEventViewResponses(
+            String placeName,
+            String eventName,
+            EventStatus eventStatus,
+            LocalDateTime eventStartDatetime,
+            LocalDateTime eventEndDatetime,
+            Pageable pageable
+    ){
+        try{
+            return eventRepository
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
     public List<EventDto> getEvents(
             Long placeId,
             String eventName,
