@@ -36,7 +36,7 @@ public class EventService {
         }
     }
 
-    public Page<EventViewResponse> getEventViewResponses(
+    public Page<EventViewResponse> getEventViewResponse(
             String placeName,
             String eventName,
             EventStatus eventStatus,
@@ -45,12 +45,17 @@ public class EventService {
             Pageable pageable
     ){
         try{
-            return eventRepository
+            return eventRepository.findEventViewPageBySearchParams(
+                    placeName,
+                    eventName,
+                    eventStatus,
+                    eventStartDatetime,
+                    eventEndDatetime,
+                    pageable
+            );
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR,e);
         }
-
-
     }
 
     public List<EventDto> getEvents(
@@ -62,28 +67,6 @@ public class EventService {
     ) {
         try {
             return null;
-        } catch (Exception e) {
-            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
-        }
-    }
-
-    public Page<EventViewResponse> getEventViewResponse(
-            String placeName,
-            String eventName,
-            EventStatus eventStatus,
-            LocalDateTime eventStartDatetime,
-            LocalDateTime eventEndDatetime,
-            Pageable pageable
-    ) {
-        try {
-            return eventRepository.findEventViewPageBySearchParams(
-                    placeName,
-                    eventName,
-                    eventStatus,
-                    eventStartDatetime,
-                    eventEndDatetime,
-                    pageable
-            );
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
