@@ -18,6 +18,10 @@ repositories {
     mavenCentral()
 }
 
+project.ext {
+    querydslVersion = dependencyManagement.importedProperties['querydsl.version']
+}
+
 dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -35,9 +39,8 @@ dependencies {
 
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa"
-    implementation "com.querydsl:querydsl-core"
     implementation "com.querydsl:querydsl-collections"
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"// querydsl JPAAnnotationProcessor 사용 지정
+    annotationProcessor "com.querydsl:querydsl-apt:${project.querydslVersion}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotaion.Generated) 발생 대응
 }
 
@@ -58,6 +61,12 @@ sourceSets {
 tasks.withType(JavaCompile) {
     options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
+
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
+
 
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
