@@ -39,7 +39,7 @@ class AdminControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("admin/places"));
 
-        // then
+
     }
 
     @DisplayName("[view][GET] 어드민 페이지 - 장소 세부 정보 뷰")
