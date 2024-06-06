@@ -100,7 +100,55 @@ class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("event/index"))
-                .andExpect()
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().attributeExists("events"));
+        then(eventService).should().getEventViewResponse(
+                placeName,
+                eventName,
+                eventStatus,
+                eventStartDatetime,
+                eventEndDatetime,
+                PageRequest.of(1,3)
+        );
+
+    }
+
+    @DisplayName("[view][GET] 이벤트 리스트 페이지 - 커스텀 데이터 + 검색 파라미터 (장소명, 이벤트명 잘못된 입력)")
+    @Test
+    void givenWrongParams_whenRequestingCustomEventsPage_thenReturnsEventPage() throws Exception{
+        // given
+        String placeName = "배";
+        String eventName = "오";
+        EventStatus eventStatus = EventStatus.OPENED;
+        LocalDateTime eventStartDatetime = LocalDateTime.of(2021, 1, 1, 0, 0, 0);
+        LocalDateTime eventEndDatetime = LocalDateTime.of(2021, 1, 2, 0, 0, 0);
+
+        given(eventService.getEventViewResponse(
+                placeName,
+                eventName,
+                eventStatus,
+                eventStartDatetime,
+                eventEndDatetime,
+                PageRequest.of(1, 3)
+        )).willReturn(Page.empty());
+
+        // when & then
+        mvc.perform(
+                get("/events/custom")
+                        .queryParam("placeName", placeName)
+                        .queryParam("eventName", eventName)
+                        .queryParam("eventStatus", eventStatus.name())
+                        .queryParam("eventStartDatetime", eventStartDatetime.toString())
+                        .queryParam("eventEndDatetime", eventEndDatetime.toString())
+                        .queryParam("page", "1")
+                        .queryParam("size", "3")
+        )
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("error"))
+                .andExpect(model().attributeExists("events"));
+
+
 
     }
 
