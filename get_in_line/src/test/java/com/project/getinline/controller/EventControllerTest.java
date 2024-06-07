@@ -1,6 +1,7 @@
 package com.project.getinline.controller;
 
 import com.project.getinline.constant.EventStatus;
+import com.project.getinline.dto.EventDto;
 import com.project.getinline.service.EventService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -148,7 +150,7 @@ class EventControllerTest {
                 .andExpect(view().name("error"))
                 .andExpect(model().attributeExists("events"));
 
-
+        then(eventService).shouldHaveNoInteractions();
 
     }
 
@@ -157,6 +159,8 @@ class EventControllerTest {
     void givenNothing_whenRequestingEventDetailPage_thenReturnsEventDetailPage() throws Exception {
         // Given
         long eventId = 1L;
+        given(eventService.getEvent(eventId)).willReturn(Optional.of(EventDto.of(
+                eventId)))
 
         // When & Then
         mvc.perform(get("/events/" + eventId))
