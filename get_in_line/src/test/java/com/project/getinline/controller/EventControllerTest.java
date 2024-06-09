@@ -30,7 +30,8 @@ class EventControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean private EventService eventService;
+    @MockBean
+    private EventService eventService;
 
     public EventControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
@@ -55,7 +56,7 @@ class EventControllerTest {
 
     @DisplayName("[view][GET] 이벤트 리스트 페이지 - 커스텀 페이지")
     @Test
-    void givenNothing_whenRequestingCustomEventsPage_thenReturnsEventsPage() throws Exception{
+    void givenNothing_whenRequestingCustomEventsPage_thenReturnsEventsPage() throws Exception {
         // Given
         given(eventService.getEventViewResponse(any(), any(), any(), any(), any(), any())).willReturn(Page.empty());
 
@@ -66,13 +67,14 @@ class EventControllerTest {
                 .andExpect(view().name("evnet/index"))
                 .andExpect(model().hasNoErrors())
                 .andExpect(model().attributeExists("events"));
-        then(eventService).should().getEventViewResponse(any(), any(), any(), any(), any(), any());;
+        then(eventService).should().getEventViewResponse(any(), any(), any(), any(), any(), any());
+        ;
 
     }
 
     @DisplayName("[view][GET] 이벤트 리스트 페이지 - 커스텀 데이터 + 검색 파라미터")
     @Test
-    void givenParams_whenRequestingCustomEventsPage_thenReturnsEventPage() throws Exception{
+    void givenParams_whenRequestingCustomEventsPage_thenReturnsEventPage() throws Exception {
         // Given
         String placeName = "배드민턴";
         String eventName = "오후";
@@ -85,20 +87,20 @@ class EventControllerTest {
                 eventStatus,
                 eventStartDatetime,
                 eventEndDatetime,
-                PageRequest.of(1,3)
+                PageRequest.of(1, 3)
         )).willReturn(Page.empty());
 
         // When & Then
         mvc.perform(
-                get("/events/custom")
-                        .queryParam("placeName", placeName)
-                        .queryParam("eventName", eventName)
-                        .queryParam("eventStatus", eventStatus.name())
-                        .queryParam("eventStartDatetime", eventStartDatetime.toString())
-                        .queryParam("eventEndDatetime", eventEndDatetime.toString())
-                        .queryParam("page", "1")
-                        .queryParam("size", "3")
-        )
+                        get("/events/custom")
+                                .queryParam("placeName", placeName)
+                                .queryParam("eventName", eventName)
+                                .queryParam("eventStatus", eventStatus.name())
+                                .queryParam("eventStartDatetime", eventStartDatetime.toString())
+                                .queryParam("eventEndDatetime", eventEndDatetime.toString())
+                                .queryParam("page", "1")
+                                .queryParam("size", "3")
+                )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("event/index"))
@@ -110,14 +112,14 @@ class EventControllerTest {
                 eventStatus,
                 eventStartDatetime,
                 eventEndDatetime,
-                PageRequest.of(1,3)
+                PageRequest.of(1, 3)
         );
 
     }
 
     @DisplayName("[view][GET] 이벤트 리스트 페이지 - 커스텀 데이터 + 검색 파라미터 (장소명, 이벤트명 잘못된 입력)")
     @Test
-    void givenWrongParams_whenRequestingCustomEventsPage_thenReturnsEventPage() throws Exception{
+    void givenWrongParams_whenRequestingCustomEventsPage_thenReturnsEventPage() throws Exception {
         // given
         String placeName = "배";
         String eventName = "오";
@@ -136,15 +138,15 @@ class EventControllerTest {
 
         // when & then
         mvc.perform(
-                get("/events/custom")
-                        .queryParam("placeName", placeName)
-                        .queryParam("eventName", eventName)
-                        .queryParam("eventStatus", eventStatus.name())
-                        .queryParam("eventStartDatetime", eventStartDatetime.toString())
-                        .queryParam("eventEndDatetime", eventEndDatetime.toString())
-                        .queryParam("page", "1")
-                        .queryParam("size", "3")
-        )
+                        get("/events/custom")
+                                .queryParam("placeName", placeName)
+                                .queryParam("eventName", eventName)
+                                .queryParam("eventStatus", eventStatus.name())
+                                .queryParam("eventStartDatetime", eventStartDatetime.toString())
+                                .queryParam("eventEndDatetime", eventEndDatetime.toString())
+                                .queryParam("page", "1")
+                                .queryParam("size", "3")
+                )
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("error"))
@@ -156,11 +158,12 @@ class EventControllerTest {
 
     @DisplayName("[view][GET] 이벤트 세부 정보 페이지")
     @Test
-    void givenNothing_whenRequestingEventDetailPage_thenReturnsEventDetailPage() throws Exception {
+    void givenEventId_whenRequestingEventDetailPage_thenReturnsEventDetailPage() throws Exception {
         // Given
         long eventId = 1L;
-        given(eventService.getEvent(eventId)).willReturn(Optional.of(EventDto.of(
-                eventId)))
+        given(eventService.getEvent(eventId)).willReturn(Optional.of(
+                EventDto.of(eventId, null, null, null, null, null, null, null, null, null, null)
+        ));
 
         // When & Then
         mvc.perform(get("/events/" + eventId))
@@ -168,8 +171,26 @@ class EventControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("event/detail"))
                 .andExpect(model().hasNoErrors())
-                .andExpect(model().attributeExists("event"))
-        ;
+                .andExpect(model().attributeExists("event"));
+
+        then(eventService).should().getEvent(eventId);
     }
+
+    @DisplayName("[view][GET] 이벤트 세부 정보 페이지 - 데이터 없음")
+    @Test
+    void givenNonexistentEventId_whenRequestingEventDetailPage_thenReturnsErrorPage() throws Exception{
+        // Given
+        long eventId = 0L;
+        given(eventService.getEvent(eventId)).willReturn(Optional.empty());
+
+        // When & Then
+        mvc.perform(get("/events/"+eventId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("error"));
+        then(eventService).should().getEvent(eventId);
+
+    }
+
 
 }
