@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -26,7 +25,8 @@ class PlaceControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean private PlaceService placeService;
+    @MockBean
+    private PlaceService placeService;
 
     public PlaceControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
@@ -36,7 +36,7 @@ class PlaceControllerTest {
     @Test
     void givenNothing_whenRequestingPlacesPage_thenReturnsPlacesPage() throws Exception {
         // Given
-            given(placeService.getPlaces(any())).willReturn(List.of());
+        given(placeService.getPlaces(any())).willReturn(List.of());
 
         // When & Then
         mvc.perform(get("/places"))
@@ -72,13 +72,13 @@ class PlaceControllerTest {
 
     @DisplayName("[view][GET] 장소 세부 정보 페이지 - 데이터 없음")
     @Test
-    void givenNonexistentPlaceId_whenRequestingPlaceDetailPage_thenReturnsErrorPage() throws Exception{
+    void givenNonexistentPlaceId_whenRequestingPlaceDetailPage_thenReturnsErrorPage() throws Exception {
         // Given
         long placeId = 0L;
         given(placeService.getPlace(placeId)).willReturn(Optional.empty());
 
         // When & Then
-        mvc.perform(get("/places/"+placeId))
+        mvc.perform(get("/places/" + placeId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("error"));
