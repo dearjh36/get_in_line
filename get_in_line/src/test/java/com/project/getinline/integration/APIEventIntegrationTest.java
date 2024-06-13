@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// 여러 테스트 방법 사용
+@Deprecated
 @AutoConfigureMockMvc // mvc 넣어주기 위해 필요, springboot Test는 안넣어줌
 @SpringBootTest
 public class APIEventIntegrationTest {

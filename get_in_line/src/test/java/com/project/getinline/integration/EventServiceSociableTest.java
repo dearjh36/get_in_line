@@ -11,6 +11,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+// 여러 테스트 방법 사용
+@Deprecated
 @SpringBootTest
 public class EventServiceSociableTest {
 
