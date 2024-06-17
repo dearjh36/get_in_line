@@ -67,6 +67,28 @@ class PlaceServiceTest {
         then(placeRepository).should().findAll(any(Predicate.class));
     }
 
+    @DisplayName("장소 ID 로 존재하는 장소를 조회하면, 해당 장소 정보를 출력하여 보여준다.")
+    @Test
+    void givenPlaceId_whenSearchingExistingPlace_thenReturnsPlace(){
+        // Given
+        long placeId = 1L;
+        Place place = createPlace(PlaceType.SPORTS, "체육관");
+        given(placeRepository.findById(placeId)).willReturn(Optional.of(place));
+
+        // When
+        Optional<PlaceDto> result = sut.getPlace(placeId);
+
+        // Then
+        assertThat(result).hasValue(PlaceDto.of(place));
+        then(placeRepository).should().findById(placeId);
+
+    }
+
+
+    private Place createPlace(PlaceType placeType, String placeName) {
+        return createPlace(1L, placeType, placeName);
+    }
+
     @DisplayName("장소 ID로 장소를 조회하면, 빈 정보를 출력하여 보여준다.")
     @Test
     void givenPlaceId_whenSearchingNonexistentPlace_thenReturnsEmptyOptional(){
@@ -81,12 +103,6 @@ class PlaceServiceTest {
         assertThat(result).isEmpty();
         then(placeRepository).should().findById(placeId);
 
-    }
-
-
-
-    private Place createPlace(PlaceType placeType, String placeName) {
-        return createPlace(1L, placeType, placeName);
     }
 
     private Place createPlace(long id, PlaceType placeType, String placeName ){
