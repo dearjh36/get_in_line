@@ -85,10 +85,6 @@ class PlaceServiceTest {
     }
 
 
-    private Place createPlace(PlaceType placeType, String placeName) {
-        return createPlace(1L, placeType, placeName);
-    }
-
     @DisplayName("장소 ID로 장소를 조회하면, 빈 정보를 출력하여 보여준다.")
     @Test
     void givenPlaceId_whenSearchingNonexistentPlace_thenReturnsEmptyOptional(){
@@ -103,6 +99,23 @@ class PlaceServiceTest {
         assertThat(result).isEmpty();
         then(placeRepository).should().findById(placeId);
 
+    }
+
+    @DisplayName("장소 ID로 장소를 조회하는데 데이터 관련 에러가 발생한 경우, 줄서기 프로젝트 기본 에러로 전환하여 예외 던진다.")
+    @Test
+    void givenDataRelatedException_whenSearchingPlace_thenThrowsGeneralException() {
+        // Given
+        RuntimeException e = new RuntimeException("This is test.");
+        given(placeRepository.findById(any())).willThrow(e);
+
+        // When
+        Throwable thrown = catchThrowable(() -> sut.getPlace(null));
+
+        // Then
+        assertThat(thrown)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
+        then(placeRepository).should().findById(any());
     }
 
     private Place createPlace(long id, PlaceType placeType, String placeName ){
@@ -120,5 +133,8 @@ class PlaceServiceTest {
         return place;
     }
 
+    private Place createPlace(PlaceType placeType, String placeName) {
+        return createPlace(1L, placeType, placeName);
+    }
 
 }
