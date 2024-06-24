@@ -168,6 +168,25 @@ class PlaceServiceTest {
 
     }
 
+    // 해보기
+    @DisplayName("장소 ID와 정보를 주면, 장소 정보를 변경하고 결과를 true 로 보여준다.")
+    @Test
+    void givenPlaceIdAndItsInfo_whenModifying_thenModifiesPlaceAndReturnsTrue() {
+        // Given
+        long placeId = 1L;
+        Place originalPlace = createPlace(PlaceType.SPORTS, "체육관");
+        Place changedPlace = createPlace(PlaceType.PARTY, "무도회장");
+        given(placeRepository.findById(placeId)).willReturn(Optional.of(originalPlace));
+        given(placeRepository.save(changedPlace)).willReturn(changedPlace);
+
+        // When
+        boolean result = sut.modifyPlace(placeId, PlaceDto.of(changedPlace));
+
+        // Then
+        assertThat(result).isTrue();
+        then(placeRepository).should().findById(placeId);
+        then(placeRepository).should().save(changedPlace);
+    }
 
     private Place createPlace(long id, PlaceType placeType, String placeName ){
         Place place = Place.of(
