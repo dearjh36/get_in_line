@@ -171,7 +171,7 @@ class PlaceServiceTest {
     // 해보기
     @DisplayName("장소 ID와 정보를 주면, 장소 정보를 변경하고 결과를 true 로 보여준다.")
     @Test
-    void givenPlaceIdAndItsInfo_whenModifying_thenModifiesPlaceAndReturnsTrue() {
+    void givenPlaceIdAndItsInfo_whenModifying_thenModifiesPlaceAndReturnsTrue(){
         // Given
         long placeId = 1L;
         Place originalPlace = createPlace(PlaceType.SPORTS, "체육관");
@@ -186,6 +186,22 @@ class PlaceServiceTest {
         assertThat(result).isTrue();
         then(placeRepository).should().findById(placeId);
         then(placeRepository).should().save(changedPlace);
+
+    }
+
+    @DisplayName("장소 ID를 주지 않으면, 장소 정보 변경 중단하고 결과를 false 로 보여준다.")
+    @Test
+    void givenNoPlaceId_whenModifying_thenAbortModifyingAndReturnsFalse(){
+        // Given
+        Place place = createPlace(PlaceType.SPORTS, "체육관");
+
+        // When
+        boolean result = sut.modifyPlace(null, PlaceDto.of(place));
+
+        // Then
+        assertThat(result).isFalse();
+        then(placeRepository).shouldHaveNoInteractions();
+
     }
 
     private Place createPlace(long id, PlaceType placeType, String placeName ){
