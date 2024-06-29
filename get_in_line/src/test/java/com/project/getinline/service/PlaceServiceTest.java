@@ -1,7 +1,9 @@
 package com.project.getinline.service;
 
 import com.project.getinline.constant.ErrorCode;
+import com.project.getinline.constant.EventStatus;
 import com.project.getinline.constant.PlaceType;
+import com.project.getinline.domain.Event;
 import com.project.getinline.domain.Place;
 import com.project.getinline.dto.PlaceDto;
 import com.project.getinline.exception.GeneralException;
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -204,6 +207,44 @@ class PlaceServiceTest {
 
     }
 
+    @DisplayName("장소 ID만 주고 변경할 정보를 주지 않으면, 장소 정보 변경을 중단하고 결과를 false로 보여준다.")
+    @Test
+    void givenPlaceIdOnly_whenModifying_thenAbortModifyingAndReturnsFalse(){
+        // Given
+        long eventId = 1L;
+
+        // When
+        boolean result = sut.modifyPlace(eventId, null);
+
+        // Then
+        assertThat(result).isFalse();
+        then(placeRepository).shouldHaveNoInteractions();
+
+    }
+
+    @DisplayName("장소 변경 중 데이터 오류가 발생하면, 줄서기 프로젝트 기본 에러로 전환하여 에러를 던진다.")
+    @Test
+    void givenDataRelatedException_whenModifying_thenThrowsGeneralException(){
+        // Given
+        long placeId = 1L;
+        Place originalPlace = createPlace(PlaceType.SPORTS, "체육관");
+        Place wrongPlace = createPlace(null, null);
+        RuntimeException e = new RuntimeException("This is Test");
+        given(placeRepository.findById(placeId)).willReturn(Optional.of(originalPlace));
+        given(placeRepository.save(any())).willThrow(e);
+
+        // When
+        Throwable thrown = catchThrowable(() -> sut.modifyPlace(placeId, PlaceDto.of(wrongPlace)));
+
+        // Then
+        assertThat(thrown)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
+        then(placeRepository).should().findById(placeId);
+        then(placeRepository).should().save(any());
+
+    }
+
     private Place createPlace(long id, PlaceType placeType, String placeName ){
         Place place = Place.of(
                 placeType,
@@ -222,5 +263,7 @@ class PlaceServiceTest {
     private Place createPlace(PlaceType placeType, String placeName) {
         return createPlace(1L, placeType, placeName);
     }
+
+
 
 }
