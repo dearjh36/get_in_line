@@ -25,8 +25,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.*;
 
 @DisplayName("비즈니스 로직 - 장소")
 @ExtendWith(MockitoExtension.class)
@@ -242,6 +241,37 @@ class PlaceServiceTest {
                 .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
         then(placeRepository).should().findById(placeId);
         then(placeRepository).should().save(any());
+
+    }
+
+    @DisplayName("장소 ID를 주면, 장소 정보를 삭제하고 결과를 true로 보여준다")
+    @Test
+    void givenPlaceId_whenDeleting_thenDeletesPlaceAndReturnsTrue(){
+        // Given
+        long placeId = 1L;
+        willDoNothing().given(placeRepository).deleteById(placeId);
+
+        // When
+        boolean result = sut.removePlace(placeId);
+
+        // Then
+        assertThat(result).isTrue();
+        then(placeRepository).should().deleteById(placeId);
+
+    }
+
+    @DisplayName("장소 ID를 주지 않으면, 삭제를 중단하고 결과를 false로 보여준다.")
+    @Test
+    void givenNothing_whenDeleting_thenDeletesPlaceAndReturnsTrue(){
+        // Given
+
+
+        // When
+        boolean result = sut.removePlace(null);
+
+        // Then
+        assertThat(result).isFalse();
+        then(placeRepository).shouldHaveNoInteractions();
 
     }
 
