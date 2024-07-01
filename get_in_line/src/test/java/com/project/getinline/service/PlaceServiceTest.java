@@ -262,7 +262,7 @@ class PlaceServiceTest {
 
     @DisplayName("장소 ID를 주지 않으면, 삭제를 중단하고 결과를 false로 보여준다.")
     @Test
-    void givenNothing_whenDeleting_thenDeletesPlaceAndReturnsTrue(){
+    void givenNothing_whenDeleting_thenAbortsDeletingAndReturnsFalse(){
         // Given
 
 
@@ -272,6 +272,25 @@ class PlaceServiceTest {
         // Then
         assertThat(result).isFalse();
         then(placeRepository).shouldHaveNoInteractions();
+
+    }
+
+    @DisplayName("장소 삭제 중 데이터 오류가 발생하면, 줄서기 프로젝트 기본 에러로 전환하여 예외 던진다.")
+    @Test
+    void givenDataRelatedException_whenDeleting_thenThrowsGeneralException(){
+        // Given
+        long placeId = 0L;
+        RuntimeException e = new RuntimeException("This is test");
+        willThrow(e).given(placeRepository).deleteById(placeId);
+
+        // When
+        Throwable thrown = catchThrowable(() -> sut.removePlace(placeId));
+
+        // Then
+        assertThat(thrown)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
+        then(placeRepository).should().deleteById(placeId);
 
     }
 
