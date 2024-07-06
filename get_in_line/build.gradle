@@ -1,11 +1,12 @@
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'nu.studer.jooq' version '5.2.2'
     id 'java'
 }
 
 group = 'com.project'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.2-SNAPSHOT'
 sourceCompatibility = '16'
 
 configurations {
@@ -20,6 +21,8 @@ repositories {
 
 project.ext {
     querydslVersion = dependencyManagement.importedProperties['querydsl.version']
+    mysqlVersion = dependencyManagement.importedProperties['mysql.version']
+    jooqVersion = dependencyManagement.importedProperties['jooq.version']
 }
 
 dependencies {
@@ -42,6 +45,10 @@ dependencies {
     implementation "com.querydsl:querydsl-collections"
     annotationProcessor "com.querydsl:querydsl-apt:${project.querydslVersion}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotaion.Generated) 발생 대응
+
+    // jooq
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    jooqGenerator "mysql:mysql-connector-java:${project.mysqlVersion}"
 }
 
 test {
@@ -51,11 +58,6 @@ test {
 
 // querydsl 적용
 def generated='src/main/generated'
-
-// java source set 에 querydsl QClass 위치 추가
-sourceSets {
-    main.java.srcDirs += [ generated ]
-}
 
 // querydsl QClass 파일 위치를 잡아주는 설정
 tasks.withType(JavaCompile) {
@@ -67,8 +69,69 @@ sourceSets {
     main.java.srcDirs += [ generated ]
 }
 
-
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(generated)
+}
+
+// jooq 설정부
+def generatedJooq = 'src/main/generated-jooq'
+
+jooq {
+    version = project.jooqVersion
+
+    configurations {
+        main {  // name of the jOOQ configuration
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://localhost:3306/getinline'
+                    user = 'root'
+                    password = ''
+                }
+                generator {
+                    name = 'org.jooq.codegen.JavaGenerator'
+                    database {
+                        name = 'org.jooq.meta.mysql.MySQLDatabase'
+                        inputSchema = 'getinline'
+                        includes = '.*'
+                        excludes = ''
+                        forcedTypes {
+                            forcedType {
+                                userType = 'com.project.getinline.constant.EventStatus'
+                                enumConverter = true
+                                includeExpression = '.*\\.event_status'
+                                includeTypes = '.*'
+                            }
+                            forcedType {
+                                userType = 'com.project.getinline.constant.PlaceType'
+                                enumConverter = true
+                                includeExpression = '.*\\.place_type'
+                                includeTypes = '.*'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = 'com.project.getinline'
+                        directory = generatedJooq
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
+}
+
+// incremental build (증분 빌드) - Jooq 오브젝트 생성 퍼포먼스 향상
+tasks.named('generateJooq').configure {
+    allInputsDeclared = true
+    outputs.cacheIf { true }
 }
