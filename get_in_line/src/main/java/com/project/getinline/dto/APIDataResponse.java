@@ -27,6 +27,4 @@ public class APIDataResponse<T> extends APIErrorResponse {
         return new APIDataResponse<>(null);
     }
 
-
-
 }

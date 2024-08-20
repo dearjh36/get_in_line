@@ -17,6 +17,13 @@ public record PlaceDto(
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
+
+    public static PlaceDto idOnly(Long id){
+
+        return PlaceDto.of(id, null, null, null, null, null, null, null, null);
+    }
+
+
     public static PlaceDto of(
             Long id,
             PlaceType placeType,
@@ -50,25 +57,15 @@ public record PlaceDto(
     }
 
     public Place updateEntity(Place place) {
-        if (placeType != null) {
-            place.setPlaceType(placeType);
-        }
-        if (placeName != null) {
-            place.setPlaceName(placeName);
-        }
-        if (address != null) {
-            place.setAddress(address);
-        }
-        if (phoneNumber != null) {
-            place.setPhoneNumber(phoneNumber);
-        }
-        if (capacity != null) {
-            place.setCapacity(capacity);
-        }
-        if (memo != null) {
-            place.setMemo(memo);
-        }
+        if (placeType != null) { place.setPlaceType(placeType); }
+        if (placeName != null) { place.setPlaceName(placeName); }
+        if (address != null) { place.setAddress(address); }
+        if (phoneNumber != null) { place.setPhoneNumber(phoneNumber); }
+        if (capacity != null) { place.setCapacity(capacity); }
+        if (memo != null) { place.setMemo(memo); }
 
         return place;
     }
+
 }
+

@@ -37,14 +37,5 @@ values
 (3, '오전 스키', 'OPENED', '2021-02-01 08:00:00', '2021-02-01 12:30:00', 12, 50, 'test memo6')
 ;
 
-insert into `admin` (`email`, `nickname`, `password`, `phone_number`, `memo`)
-values
-('test@test.com', '테스트', '1234', '010-0101-0101', '안녕하세요')
-;
 
-insert into `admin_place_map` (`admin_id`, `place_id`)
-values
-(1, 1),
-(1, 2),
-(1, 3)
-;
+
