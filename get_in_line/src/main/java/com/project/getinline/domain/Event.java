@@ -37,7 +37,7 @@ public class Event {
     private String eventName;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "varchar default 'OPENED'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'OPENED'")
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
@@ -46,25 +46,27 @@ public class Event {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventStartDatetime;
 
-    @Setter @Column(nullable = false, columnDefinition = "datetime")
+    @Setter
+    @Column(nullable = false, columnDefinition = "datetime")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventEndDatetime;
 
-    @Setter @Column(nullable = false, columnDefinition = "integer default 0")
+    @Setter
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer currentNumberOfPeople;
 
-    @Setter @Column(nullable = false)
+    @Setter
+    @Column(nullable = false)
     private Integer capacity;
 
     @Setter
     private String memo;
 
 
-    // @EntityListeners(AuditingEntityListener.class) 가 자동으로 세팅하게 유도
-    // insertable 찾아보기
     @Column(nullable = false, insertable = false, updatable = false,
             columnDefinition = "datetime default CURRENT_TIMESTAMP")
     // 위와 아래의 어노테이션은 별개로 기능
+    // @EntityListeners(AuditingEntityListener.class) 가 자동으로 세팅하게 유도
     @CreatedDate
     private LocalDateTime createdAt;
 

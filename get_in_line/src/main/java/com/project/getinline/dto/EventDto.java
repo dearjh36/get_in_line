@@ -64,7 +64,7 @@ public record EventDto(
         );
     }
 
-    public Event toEntity(Place place){
+    public Event toEntity(Place place) {
         return Event.of(
                 place,
                 eventName,
@@ -77,8 +77,7 @@ public record EventDto(
         );
     }
 
-    public Event updateEntity(Event event){
-
+    public Event updateEntity(Event event) {
         if (eventName != null) { event.setEventName(eventName); }
         if (eventStatus != null) { event.setEventStatus(eventStatus); }
         if (eventStartDatetime != null) { event.setEventStartDatetime(eventStartDatetime); }
@@ -87,7 +86,7 @@ public record EventDto(
         if (capacity != null) { event.setCapacity(capacity); }
         if (memo != null) { event.setMemo(memo); }
 
-        return  event;
+        return event;
     }
 
 }

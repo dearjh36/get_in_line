@@ -1,9 +1,11 @@
 package com.project.getinline.controller.api;
 
 import com.project.getinline.constant.EventStatus;
+import com.project.getinline.constant.PlaceType;
 import com.project.getinline.dto.APIDataResponse;
 import com.project.getinline.dto.EventRequest;
 import com.project.getinline.dto.EventResponse;
+import com.project.getinline.dto.PlaceDto;
 import com.project.getinline.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ import java.util.List;
 /**
  * Spring Data REST 로 API를 만들어서 당장 필요가 없어진 컨트롤러
  * 우선 deprecated 하고, 향후 사용 방안을 고민해 본다.
+ *
+ * @deprecated 0.1.2
  * */
 /*
 @Validated
@@ -41,15 +45,27 @@ public class APIEventController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
     ) {
-        List<EventResponse> eventResponses = eventService.getEvents(
-                placeId,
-                eventName,
-                eventStatus,
-                eventStartDatetime,
-                eventEndDatetime
-        ).stream().map(EventResponse::from).toList();
-
-        return APIDataResponse.of(eventResponses);
+        return APIDataResponse.of(List.of(EventResponse.of(
+                1L,
+                PlaceDto.of(
+                        1L,
+                        PlaceType.SPORTS,
+                        "배드민턴장",
+                        "서울시 가나구 다라동",
+                        "010-1111-2222",
+                        0,
+                        null,
+                        LocalDateTime.now(),
+                        LocalDateTime.now()
+                ),
+                "오후 운동",
+                EventStatus.OPENED,
+                LocalDateTime.of(2021, 1, 1, 13, 0, 0),
+                LocalDateTime.of(2021, 1, 1, 16, 0, 0),
+                0,
+                24,
+                "마스크 꼭 착용하세요"
+        )));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
