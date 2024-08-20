@@ -4,8 +4,10 @@ import com.project.getinline.constant.EventStatus;
 import com.project.getinline.constant.PlaceType;
 import com.project.getinline.dto.EventDto;
 import com.project.getinline.dto.PlaceDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
+@Validated
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
