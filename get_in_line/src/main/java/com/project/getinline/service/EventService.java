@@ -111,6 +111,7 @@ public class EventService {
             }
 
             Place place = placeRepository.getById(eventDTO.placeDto().id());
+
             eventRepository.save(eventDTO.toEntity(place));
 
             return true;
@@ -127,6 +128,8 @@ public class EventService {
 
             eventRepository.findById(eventId)
                     .ifPresent(event -> eventRepository.save(dto.updateEntity(event)));
+
+            // findById(eventId)의 결과가 없는 경우도 아무 실행이 되지 않고 true로 리턴해버림 고쳐야함
 
             return true;
         } catch (Exception e) {
