@@ -4,6 +4,7 @@ import com.project.getinline.constant.AdminOperationStatus;
 import com.project.getinline.constant.ErrorCode;
 import com.project.getinline.constant.EventStatus;
 import com.project.getinline.constant.PlaceType;
+import com.project.getinline.domain.Event;
 import com.project.getinline.domain.Place;
 import com.project.getinline.dto.*;
 import com.project.getinline.exception.GeneralException;
@@ -95,15 +96,15 @@ public class AdminController {
     }
 
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    @GetMapping("/events/{eventId}/delete")
-    public String deleteEvent(
-            @PathVariable Long eventId,
+    @GetMapping("/places/{placeId}/delete")
+    public String deletePlace(
+            @PathVariable Long placeId,
             RedirectAttributes redirectAttributes
-    ){
-        eventService.removeEvent(eventId);
+    ) {
+        placeService.removePlace(placeId);
 
         redirectAttributes.addFlashAttribute("adminOperationStatus", AdminOperationStatus.DELETE);
-        redirectAttributes.addFlashAttribute("redirectUrl", "/admin/events");
+        redirectAttributes.addFlashAttribute("redirectUrl", "/admin/places");
 
         return "redirect:/admin/confirm";
     }
@@ -114,11 +115,72 @@ public class AdminController {
                 .map(EventResponse::empty)
                 .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND));
 
-        model.addAttribute("adminOperatonStatus", AdminOperationStatus.CREATE);
+        model.addAttribute("adminOperationStatus", AdminOperationStatus.CREATE);
         model.addAttribute("eventStatusOption", EventStatus.values());
         model.addAttribute("event", event);
 
         return "admin/event-detail";
+    }
+
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    @PostMapping("/places/{placeId}/events")
+    public String upsertEvent(
+            @Valid EventRequest eventRequest,
+            @PathVariable Long placeId,
+            RedirectAttributes redirectAttributes
+    ){
+        AdminOperationStatus status = eventRequest.id() != null ? AdminOperationStatus.MODIFY : AdminOperationStatus.CREATE;
+        eventService.upsertEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)));
+
+        redirectAttributes.addFlashAttribute("adminOperationStatus",status);
+        redirectAttributes.addFlashAttribute("redirectUrl","/admin/place/"+placeId);
+
+        return "redirect:/admin/confirm";
+    }
+
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    @GetMapping("/events/{eventid}/delete")
+    public String deleteEvent(
+            @PathVariable Long eventid,
+            RedirectAttributes redirectAttributes
+    ){
+        eventService.removeEvent(eventid);
+
+        redirectAttributes.addFlashAttribute("adminOperationStatus", AdminOperationStatus.DELETE);
+        redirectAttributes.addFlashAttribute("redirectUrl", "/admin/events");
+
+        return "redirect:/admin/comfirm";
+    }
+
+    @GetMapping("/events")
+    public ModelAndView adminEvents(@QuerydslPredicate(root = Event.class) Predicate predicate){
+        List<EventResponse> events = eventService.getEvents(predicate)
+                .stream()
+                .map(EventResponse::from)
+                .toList();
+
+        return new ModelAndView(
+                "admin/events",
+                Map.of(
+                        "events", events,
+                        "eventStatusOption", EventStatus.values()
+                )
+        );
+    }
+
+    @GetMapping("/events/{eventId}")
+    public ModelAndView adminEventDetail(@PathVariable Long eventId){
+        EventResponse event = eventService.getEvent(eventId)
+                .map(EventResponse::from)
+                .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND));
+
+        return new ModelAndView("admin/event-detail",
+                Map.of(
+                        "adminOperationStatus", AdminOperationStatus.MODIFY,
+                        "event", event,
+                        "eventStatusOption", EventStatus.values()
+                )
+        );
     }
 
     @GetMapping("/confirm")
