@@ -48,6 +48,7 @@ public class EventRepositoryCustomImpl extends QuerydslRepositorySupport impleme
                         event.memo
                 ));
 
+        // event의 place의 placeName이 대소문자 상관없이 검색하는 메소드
         if(placeName != null && !placeName.isBlank()){
             query.where(event.place.placeName.containsIgnoreCase(placeName));
         }
@@ -57,9 +58,11 @@ public class EventRepositoryCustomImpl extends QuerydslRepositorySupport impleme
         if(eventStatus != null ){
             query.where(event.eventStatus.eq(eventStatus));
         }
+        // goe : greater than or equal ( >= ) 크거나 같은
         if (eventStartDatetime != null) {
             query.where(event.eventStartDatetime.goe(eventStartDatetime));
         }
+        // loe : less than or equal ( <= ) 작거나 같은
         if (eventEndDatetime != null) {
             query.where(event.eventEndDatetime.loe(eventEndDatetime));
         }
